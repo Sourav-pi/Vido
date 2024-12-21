@@ -1,5 +1,5 @@
 import express, { Router } from "express";
-import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../utils/verifyToken.js";
 import {
   deleteUser,
   dislike,

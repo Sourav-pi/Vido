@@ -1,4 +1,4 @@
-import { createError } from "../error.js";
+import { createError } from "../utils/error.js";
 import Video from "../models/VideoModel.js";
 import User from "../models/UserModel.js";
 

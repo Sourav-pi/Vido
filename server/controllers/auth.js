@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import User from "../models/UserModel.js";
 import bcrypt from "bcrypt";
-import { createError } from "../error.js";
+import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import env from "dotenv";
 

@@ -4,7 +4,7 @@ import {
   deleteComment,
   getComments,
 } from "../controllers/comment.js";
-import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../utils/verifyToken.js";
 
 const router = Router();
 

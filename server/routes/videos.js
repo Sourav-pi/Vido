@@ -11,7 +11,7 @@ import {
   getByTags,
   search,
 } from "../controllers/video.js";
-import { verifyToken } from "../verifyToken.js";
+import { verifyToken } from "../utils/verifyToken.js";
 
 const router = Router();
 
