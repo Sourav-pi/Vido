@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import env from "dotenv";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 
 import userRoute from "./routes/users.js";
@@ -24,6 +25,12 @@ function connect() {
     });
 }
 
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 

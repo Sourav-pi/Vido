@@ -1,6 +1,8 @@
 import { Link } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
+import { format } from "timeago.js";
+import axios from "axios";
 
 const Container = styled.div`
   width: ${({ type }) => type !== "sm" && "300px"};
@@ -47,23 +49,29 @@ const Info = styled.div`
   color: ${({ theme }) => theme.textSecondary};
 `;
 
-const Card = ({ type }) => {
+const Card = ({ type, video }) => {
+  const [channel, setChannel] = React.useState({});
+  useEffect(() => {
+    const fetchChannel = async () => {
+      const response = await axios.get(
+        `http://localhost:8800/api/users/find/${video?.userId}`
+      );
+      setChannel(response.data);
+    };
+    fetchChannel();
+  }, [video?.userId]);
   return (
     <Link href="/video/1" style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image
-          type={type}
-          src="https://i.ytimg.com/vi/CCF-xV3RSSs/hqdefault.jpg?sqp=-oaymwEjCNACELwBSFryq4qpAxUIARUAAAAAGAElAADIQj0AgKJDeAE=&rs=AOn4CLAhiGdEFM9iX7dH-AoeVq5WdyDwWA"
-        />
+        <Image type={type} src={video?.imgUrl} />
         <Details type={type}>
-          <ChannelAvatar
-            type={type}
-            src="https://yt3.ggpht.com/ytc/AIdro_luF-nK_BZqKzocE3qJoPsgRpL88k9zVsyUsZc3evTj8w=s88-c-k-c0x00ffffff-no-rj"
-          />
+          <ChannelAvatar type={type} src={channel?.profilePicture} />
           <Texts>
-            <Title> Test Title</Title>
-            <ChannelName>Test Channel</ChannelName>
-            <Info type={type}> 2.3M views • 1 month ago</Info>
+            <Title> {video?.title}</Title>
+            <ChannelName>{channel.img}</ChannelName>
+            <Info type={type}>
+              {video?.views} views • {format(video?.createdAt)}
+            </Info>
           </Texts>
         </Details>
       </Container>

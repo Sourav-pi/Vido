@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { loginFailure, loginStart, loginSuccess } from "../redux/UserSlice";
 
 const Container = styled.div`
   display: flex;
@@ -64,19 +67,75 @@ const Link = styled.span`
 `;
 
 const Login = () => {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const dispatch = useDispatch();
+
+  const handelSignIn = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart());
+    try {
+      const user = await axios.post("http://localhost:8800/api/auth/signin", {
+        name,
+        password,
+      });
+      console.log(user.data);
+      dispatch(loginSuccess(user.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(loginFailure(err));
+    }
+  };
+
+  const handelSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const user = await axios.post("http://localhost:8800/api/auth/signup", {
+        name,
+        email,
+        password,
+      });
+      console.log(user);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <Container>
       <Wrapper>
         <Title>Sign in</Title>
         <SubTitle>to continue to Vido</SubTitle>
-        <Input placeholder="username" />
-        <Input type="password" placeholder="password" />
-        <Button>Sign in</Button>
+        <Input
+          placeholder="username"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <Input
+          type="password"
+          placeholder="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <Button onClick={handelSignIn}>Sign in</Button>
         <Title>or</Title>
-        <Input placeholder="username" />
-        <Input placeholder="email" />
-        <Input type="password" placeholder="password" />
-        <Button>Sign up</Button>
+        <Input
+          placeholder="username"
+          onChange={(e) => setName(e.target.value)}
+          value={name}
+        />
+        <Input
+          placeholder="email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+        />
+        <Input
+          type="password"
+          placeholder="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+        />
+        <Button onClick={handelSignUp}>Sign up</Button>
       </Wrapper>
       <More>
         English(USA)

@@ -17,6 +17,7 @@ const Main = styled.div`
 const Wrapper = styled.div`
   padding: 20px 30px;
   background-color: ${({ theme }) => theme.bg};
+  height: calc(100vh - 56px);
 `;
 
 function App() {
@@ -31,7 +32,9 @@ function App() {
             <Wrapper>
               <Routes>
                 <Route path="/">
-                  <Route index element={<Home />} />
+                  <Route index element={<Home type="random" />} />
+                  <Route path="/sub" element={<Home type="sub" />} />
+                  <Route path="/trend" element={<Home type="trend" />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/video">
                     <Route path="/video/:id" element={<Video />}></Route>

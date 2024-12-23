@@ -20,6 +20,7 @@ import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightness";
 import { Link } from "@mui/material";
+import { useSelector } from "react-redux";
 
 // Styled sub-components
 const Container = styled.div`
@@ -90,6 +91,7 @@ const Title = styled.h2`
 
 // Menu component
 export const Menu = (props) => {
+  const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <Container>
       <Wrapper>
@@ -105,14 +107,21 @@ export const Menu = (props) => {
             Home
           </Item>
         </Link>
-        <Item>
-          <ExploreOutlinedIcon />
-          Explore
-        </Item>
-        <Item>
-          <SubscriptionsOutlinedIcon />
-          Subscriptions
-        </Item>
+        <Link
+          href="/trend"
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <Item>
+            <ExploreOutlinedIcon />
+            Explore
+          </Item>
+        </Link>
+        <Link href="/sub" style={{ textDecoration: "none", color: "inherit" }}>
+          <Item>
+            <SubscriptionsOutlinedIcon />
+            Subscriptions
+          </Item>
+        </Link>
         <Hr />
         <Item>
           <VideoLibraryOutlinedIcon />
@@ -123,18 +132,22 @@ export const Menu = (props) => {
           History
         </Item>
         <Hr />
-        <Login>
-          Sign in to like videos, comment, and subscribe.
-          <Link
-            href="/Login"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Button>
-              <AccountCircleOutlinedIcon /> SIGN IN
-            </Button>
-          </Link>
-        </Login>
-        <Hr />
+        {!currentUser && (
+          <>
+            <Login>
+              Sign in to like videos, comment, and subscribe.
+              <Link
+                href="/Login"
+                style={{ textDecoration: "none", color: "inherit" }}
+              >
+                <Button>
+                  <AccountCircleOutlinedIcon /> SIGN IN
+                </Button>
+              </Link>
+            </Login>
+            <Hr />
+          </>
+        )}
         <Title>BEST OF VIDO</Title>
         <Item>
           <LibraryMusicOutlinedIcon />
