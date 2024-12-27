@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Comment from "./Comment";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { format } from "timeago.js";
 
 const Container = styled.div``;
 
@@ -26,20 +29,40 @@ const Input = styled.input`
   width: 100%;
 `;
 
-const Comments = () => {
+const Comments = ({ videoId }) => {
+  const { currentUser } = useSelector((state) => state.user.currentUser);
+  const [comments, setComments] = React.useState([]);
+
+  useEffect(() => {
+    // fetch comments from the server
+    const fetchComments = async () => {
+      try {
+        const res = await axios.get(
+          `http://localhost:8800/api/comments/${videoId}`,
+          { withCredentials: true }
+        );
+        setComments(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchComments();
+  }, [videoId]);
+
   return (
     <Container>
       <NewComment>
-        <Avatar src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo" />
+        <Avatar src={currentUser?.img} />
         <Input placeholder="Add a comment..." />
       </NewComment>
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+      {comments.map((comment) => (
+        <Comment
+          key={comment._id}
+          desc={comment.desc}
+          time={format(comment.createdAt)}
+          userId={comment.userId}
+        />
+      ))}
     </Container>
   );
 };

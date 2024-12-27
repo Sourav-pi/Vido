@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-
+import axios from "axios";
+import { useState } from "react";
 const Container = styled.div`
   display: flex;
   gap: 10px;
@@ -35,20 +36,25 @@ const Text = styled.span`
   font-size: 14px;
 `;
 
-const Comment = () => {
+const Comment = ({ userId, desc, time }) => {
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data } = await axios.get(
+        `http://localhost:8800/api/users/find/${userId}`
+      );
+      setUser(data);
+    };
+    fetchUser();
+  }, [user]);
   return (
     <Container>
-      <Avatar src="https://yt3.ggpht.com/yti/APfAmoE-Q0ZLJ4vk3vqmV4Kwp0sbrjxLyB8Q4ZgNsiRH=s88-c-k-c0x00ffffff-no-rj-mo" />
+      <Avatar src={user?.img} />
       <Details>
         <Name>
-          John Doe <Date>1 day ago</Date>
+          {user?.name} <Date>{time}</Date>
         </Name>
-        <Text>
-          lipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
-          lipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-          odio.lipsum dolor sit amet, consectetur adipiscing elit. Integer nec
-          odio.
-        </Text>
+        <Text>{desc}</Text>
       </Details>
     </Container>
   );

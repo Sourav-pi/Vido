@@ -90,7 +90,7 @@ const Title = styled.h2`
 `;
 
 // Menu component
-export const Menu = (props) => {
+export const Menu = ({ isDarkTheme, setIsDarkTheme }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <Container>
@@ -188,11 +188,11 @@ export const Menu = (props) => {
         </Item>
         <Item
           onClick={() => {
-            props.setIsDarkTheme(!props.isDarkTheme);
+            setIsDarkTheme(!isDarkTheme);
           }}
         >
           <SettingsBrightnessOutlinedIcon />
-          {!props.isDarkTheme ? "Dark" : "Light"} Mode
+          {!isDarkTheme ? "Dark" : "Light"} Mode
         </Item>
       </Wrapper>
     </Container>

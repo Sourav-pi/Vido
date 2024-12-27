@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/UserSlice";
+import { Navigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -76,26 +77,34 @@ const Login = () => {
     e.preventDefault();
     dispatch(loginStart());
     try {
-      const user = await axios.post("http://localhost:8800/api/auth/signin", {
-        name,
-        password,
-      });
+      const user = await axios.post(
+        "http://localhost:8800/api/auth/signin",
+        {
+          name,
+          password,
+        },
+        { withCredentials: true }
+      );
       console.log(user.data);
       dispatch(loginSuccess(user.data));
     } catch (err) {
       console.log(err);
-      dispatch(loginFailure(err));
+      dispatch(loginFailure(true));
     }
   };
 
   const handelSignUp = async (e) => {
     e.preventDefault();
     try {
-      const user = await axios.post("http://localhost:8800/api/auth/signup", {
-        name,
-        email,
-        password,
-      });
+      const user = await axios.post(
+        "http://localhost:8800/api/auth/signup",
+        {
+          name,
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
       console.log(user);
     } catch (err) {
       console.log(err);

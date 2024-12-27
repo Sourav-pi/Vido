@@ -40,7 +40,11 @@ async function signin(req, res, next) {
     const { password: hashed_password, ...others } = user._doc;
     const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, {
+        httpOnly: true,
+        // sameSite: "None",
+        // secure: process.env.NODE_ENV === "production",
+      })
       .status(200)
       .json(others);
   } catch (e) {

@@ -17,7 +17,7 @@ const Main = styled.div`
 const Wrapper = styled.div`
   padding: 20px 30px;
   background-color: ${({ theme }) => theme.bg};
-  height: calc(100vh - 56px);
+  min-height: calc(100vh - 56px);
 `;
 
 function App() {

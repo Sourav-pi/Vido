@@ -5,6 +5,7 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Link } from "@mui/material";
 import { useSelector } from "react-redux";
+import Upload from "./Upload";
 
 const Container = styled.div`
   position: sticky;
@@ -38,6 +39,10 @@ const Search = styled.div`
 const Input = styled.input`
   border: none;
   background-color: transparent;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  color: ${({ theme }) => theme.text};
 `;
 const Button = styled.button`
   padding: 5px 15px;
@@ -68,32 +73,36 @@ const Avatar = styled.img`
 `;
 
 const Navbar = () => {
+  const [open, setOpen] = React.useState(false);
   const currentUser = useSelector((state) => state.user.currentUser);
   return (
-    <Container>
-      <Wrapper>
-        <Search>
-          <Input placeholder="Search" />
-          <SearchOutlinedIcon />
-        </Search>
-        {currentUser ? (
-          <User>
-            <VideoCallOutlinedIcon />
-            <Avatar />
-            {currentUser.name}
-          </User>
-        ) : (
-          <Link
-            href="/Login"
-            style={{ textDecoration: "none", color: "inherit" }}
-          >
-            <Button>
-              <AccountCircleOutlinedIcon /> SIGN IN
-            </Button>
-          </Link>
-        )}
-      </Wrapper>
-    </Container>
+    <>
+      <Container>
+        <Wrapper>
+          <Search>
+            <Input placeholder="Search" />
+            <SearchOutlinedIcon />
+          </Search>
+          {currentUser ? (
+            <User>
+              <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
+              <Avatar />
+              {currentUser.name}
+            </User>
+          ) : (
+            <Link
+              href="/Login"
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <Button>
+                <AccountCircleOutlinedIcon /> SIGN IN
+              </Button>
+            </Link>
+          )}
+        </Wrapper>
+      </Container>
+      {open && <Upload setOpen={setOpen} />}
+    </>
   );
 };
 

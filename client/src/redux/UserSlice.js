@@ -26,9 +26,19 @@ export const userSlice = createSlice({
       state.isFetching = false;
       state.error = false;
     },
+    subscription: (state, action) => {
+      if (state?.currentUser?.subscribedUsers.includes(action.payload)) {
+        state.currentUser.subscribedUsers =
+          state.currentUser.subscribedUsers.filter(
+            (id) => id !== action.payload
+          );
+      } else {
+        state?.currentUser?.subscribedUsers?.push(action.payload);
+      }
+    },
   },
 });
 
-export const { loginStart, loginFailure, logout, loginSuccess } =
+export const { loginStart, loginFailure, logout, loginSuccess, subscription } =
   userSlice.actions;
 export default userSlice.reducer;

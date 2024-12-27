@@ -18,7 +18,10 @@ const Home = ({ type }) => {
   useEffect(() => {
     const fetchVideos = async () => {
       const response = await axios.get(
-        `http://localhost:8800/api/videos/${type}`
+        `http://localhost:8800/api/videos/${type}`,
+        {
+          withCredentials: true,
+        }
       );
       setVideos(response.data);
     };
