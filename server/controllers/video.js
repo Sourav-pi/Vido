@@ -78,7 +78,6 @@ export const viewVideo = async (req, res, next) => {
 
 // get random video
 export const randomVideo = async (req, res, next) => {
-  console.log("request");
   try {
     const videos = await Video.aggregate([{ $sample: { size: 40 } }]);
     res.status(200).json(videos);

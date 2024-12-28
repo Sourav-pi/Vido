@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 import defaultThumbnail from "../img/no thumbnail.png";
+const API = import.meta.env.VITE_API_URL;
 
 const Container = styled.div`
   width: 100%;
@@ -92,7 +93,7 @@ const Upload = ({ setOpen }) => {
     // console.log(videoUrl);
 
     await axios.post(
-      "http://localhost:8800/api/videos/",
+      `${API}/videos/`,
       {
         title: title,
         desc: desc,

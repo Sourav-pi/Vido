@@ -3,6 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
 import profilePic from "../img/default-profile-pic.png";
+const API = import.meta.env.VITE_API_URL;
 
 const Container = styled.div`
   display: flex;
@@ -42,9 +43,7 @@ const Comment = ({ userId, desc, time }) => {
   const [user, setUser] = useState(null);
   useEffect(() => {
     const fetchUser = async () => {
-      const { data } = await axios.get(
-        `http://localhost:8800/api/users/find/${userId}`
-      );
+      const { data } = await axios.get(`${API}/users/find/${userId}`);
       setUser(data);
     };
     fetchUser();

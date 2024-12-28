@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../img/logo.png";
-import Cookie from "js-cookie";
+const API = import.meta.env.VITE_API_URL;
 
 // Importing icons from Material-UI
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -100,7 +100,7 @@ export const Menu = ({ isDarkTheme, setIsDarkTheme }) => {
   const handelLogout = async () => {
     dispatch(logout());
     const resp = await axios.post(
-      "http://localhost:8800/api/auth/logout",
+      `${API}/auth/logout`,
       { msg: "logout" },
       { withCredentials: true }
     );

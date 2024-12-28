@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import env from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
 import userRoute from "./routes/users.js";
 import videoRoute from "./routes/videos.js";
@@ -13,10 +14,12 @@ const app = express();
 env.config();
 
 const PORT = process.env.PORT;
+const CLIENT_URL = process.env.CLIENT_URL;
+const MONGO = process.env.MONGO;
 
 function connect() {
   mongoose
-    .connect(process.env.MONGO)
+    .connect(MONGO)
     .then(() => {
       console.log("DB connected");
     })
@@ -27,11 +30,13 @@ function connect() {
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [CLIENT_URL],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
+app.use(morgan("common"));
 app.use(cookieParser());
 app.use(express.json());
 

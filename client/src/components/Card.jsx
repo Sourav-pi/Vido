@@ -5,6 +5,7 @@ import { format } from "timeago.js";
 import axios from "axios";
 import profilPic from "../img/default-profile-pic.png";
 import defaultThumbnail from "../img/no thumbnail.png";
+const API = import.meta.env.VITE_API_URL;
 
 const Container = styled.div`
   width: ${({ type }) => type !== "sm" && "300px"};
@@ -55,9 +56,7 @@ const Card = ({ type, video }) => {
   const [channel, setChannel] = React.useState({});
   useEffect(() => {
     const fetchChannel = async () => {
-      const response = await axios.get(
-        `http://localhost:8800/api/users/find/${video?.userId}`
-      );
+      const response = await axios.get(`${API}/users/find/${video?.userId}`);
       setChannel(response.data);
     };
     fetchChannel();

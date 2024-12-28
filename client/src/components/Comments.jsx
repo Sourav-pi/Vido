@@ -6,8 +6,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { format } from "timeago.js";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
-import { set } from "mongoose";
 import profilePic from "../img/default-profile-pic.png";
+const API = import.meta.env.VITE_API_URL;
 
 const Container = styled.div``;
 
@@ -50,10 +50,9 @@ const Comments = ({ videoId }) => {
     // fetch comments from the server
     const fetchComments = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8800/api/comments/${videoId}`,
-          { withCredentials: true }
-        );
+        const res = await axios.get(`${API}/comments/${videoId}`, {
+          withCredentials: true,
+        });
         setComments(res.data);
       } catch (err) {
         console.log(err);
@@ -64,7 +63,7 @@ const Comments = ({ videoId }) => {
 
   const handelSendComment = async () => {
     await axios.post(
-      "http://localhost:8800/api/comments/",
+      `${API}/comments/`,
       { videoId, desc: newComment },
       { withCredentials: true }
     );
