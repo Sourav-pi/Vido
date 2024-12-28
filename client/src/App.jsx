@@ -7,6 +7,7 @@ import Login from "./pages/Login.jsx";
 import { darkTheme, lightTheme } from "./utils/theme.js";
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
+import Search from "./pages/Search.jsx";
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +39,9 @@ function App() {
                   <Route path="/login" element={<Login />} />
                   <Route path="/video">
                     <Route path="/video/:id" element={<Video />}></Route>
+                  </Route>
+                  <Route path="/search">
+                    <Route path="/search/:query" element={<Search />}></Route>
                   </Route>
                 </Route>
               </Routes>

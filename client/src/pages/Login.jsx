@@ -3,7 +3,7 @@ import styled from "styled-components";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/UserSlice";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -85,8 +85,9 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(user.data);
+      // console.log(user.data);
       dispatch(loginSuccess(user.data));
+      navigate("/");
     } catch (err) {
       console.log(err);
       dispatch(loginFailure(true));
@@ -105,11 +106,13 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      handelSignIn(e);
       console.log(user);
     } catch (err) {
       console.log(err);
     }
   };
+  const navigate = useNavigate();
   return (
     <Container>
       <Wrapper>

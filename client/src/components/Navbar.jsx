@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
@@ -72,16 +72,38 @@ const Avatar = styled.img`
   border-radius: 50%;
 `;
 
+const SearchIcon = styled.div`
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 1px 5px;
+  &:hover {
+    background-color: ${({ theme }) => theme.bgLighter};
+  }
+`;
+
 const Navbar = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [search, setSearch] = useState("");
   const currentUser = useSelector((state) => state.user.currentUser);
   return (
     <>
       <Container>
         <Wrapper>
           <Search>
-            <Input placeholder="Search" />
-            <SearchOutlinedIcon />
+            <Input
+              placeholder="Search"
+              onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+            />
+            <Link
+              href={search ? `/search/${search}` : "/"}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <SearchIcon>
+                <SearchOutlinedIcon />
+              </SearchIcon>
+            </Link>
           </Search>
           {currentUser ? (
             <User>

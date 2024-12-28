@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import logo from "../img/logo.png";
+import Cookie from "js-cookie";
 
 // Importing icons from Material-UI
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -19,8 +20,11 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SettingsBrightnessOutlinedIcon from "@mui/icons-material/SettingsBrightness";
+import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { Link } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../redux/UserSlice";
+import axios from "axios";
 
 // Styled sub-components
 const Container = styled.div`
@@ -92,6 +96,17 @@ const Title = styled.h2`
 // Menu component
 export const Menu = ({ isDarkTheme, setIsDarkTheme }) => {
   const currentUser = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const handelLogout = async () => {
+    dispatch(logout());
+    const resp = await axios.post(
+      "http://localhost:8800/api/auth/logout",
+      { msg: "logout" },
+      { withCredentials: true }
+    );
+    console.log(resp.data);
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -132,22 +147,24 @@ export const Menu = ({ isDarkTheme, setIsDarkTheme }) => {
           History
         </Item>
         <Hr />
-        {!currentUser && (
-          <>
-            <Login>
-              Sign in to like videos, comment, and subscribe.
-              <Link
-                href="/Login"
-                style={{ textDecoration: "none", color: "inherit" }}
-              >
-                <Button>
-                  <AccountCircleOutlinedIcon /> SIGN IN
-                </Button>
-              </Link>
-            </Login>
-            <Hr />
-          </>
-        )}
+        <Login>
+          {!currentUser && "Sign in to like videos, comment, and subscribe."}
+          <Link
+            href="/Login"
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            {currentUser ? (
+              <Button onClick={handelLogout}>
+                <LogoutOutlinedIcon /> LOGOUT
+              </Button>
+            ) : (
+              <Button>
+                <AccountCircleOutlinedIcon /> SIGN IN
+              </Button>
+            )}
+          </Link>
+        </Login>
+        <Hr />
         <Title>BEST OF VIDO</Title>
         <Item>
           <LibraryMusicOutlinedIcon />

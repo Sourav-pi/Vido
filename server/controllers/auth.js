@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import User from "../models/UserModel.js";
+import Blacklist from "../models/BlacklistModel.js";
 import bcrypt from "bcrypt";
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
@@ -52,4 +53,24 @@ async function signin(req, res, next) {
   }
 }
 
-export { signup, signin };
+async function logout(req, res, next) {
+  try {
+    console.log("__________________________");
+    console.log(req.body.msg);
+    const token = req.cookies.access_token;
+    const newBlacklist = new Blacklist({ token });
+    const resp = await newBlacklist.save();
+    console.log(resp);
+    res
+      .cookie("access_token", "", {
+        httpOnly: true,
+      })
+      .status(200)
+      .json("Logged out");
+  } catch (e) {
+    console.log(e);
+    next(createError(500, e.message));
+  }
+}
+
+export { signup, signin, logout };

@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import styled from "styled-components";
+import defaultThumbnail from "../img/no thumbnail.png";
 
 const Container = styled.div`
   width: 100%;
@@ -141,7 +142,7 @@ const Upload = ({ setOpen }) => {
         <Label>Image</Label>
         <Input
           onChange={(e) => {
-            setThumbnail(e.target.files[0]);
+            setThumbnail(e.target.files[0] || defaultThumbnail);
           }}
           type="file"
           accept="image/*"

@@ -1,5 +1,6 @@
 import express, { Router } from "express";
-import { signup, signin } from "../controllers/auth.js";
+import { signup, signin, logout } from "../controllers/auth.js";
+import { verifyToken } from "../utils/verifyToken.js";
 
 const router = Router();
 
@@ -9,5 +10,7 @@ router.post("/signup", signup);
 router.post("/signin", signin);
 // GOODLE AUTH
 router.post("/google");
+// LOGOUT
+router.post("/logout", logout);
 
 export default router;
