@@ -4,6 +4,10 @@ import Comment from "./Comment";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { format } from "timeago.js";
+import IconButton from "@mui/material/IconButton";
+import SendIcon from "@mui/icons-material/Send";
+import { set } from "mongoose";
+import profilePic from "../img/default-profile-pic.png";
 
 const Container = styled.div``;
 
@@ -11,6 +15,7 @@ const NewComment = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Avatar = styled.img`
@@ -29,9 +34,17 @@ const Input = styled.input`
   width: 100%;
 `;
 
+const SendComment = styled(SendIcon)`
+  color: ${({ theme }) => theme.text};
+`;
+
 const Comments = ({ videoId }) => {
-  const { currentUser } = useSelector((state) => state.user.currentUser);
+  const currentUser = useSelector(
+    (state) => state.user.currentUser
+  )?.currentUser;
   const [comments, setComments] = React.useState([]);
+  const [newComment, setNewComment] = React.useState("");
+  const [trigger, setTrigger] = React.useState(false);
 
   useEffect(() => {
     // fetch comments from the server
@@ -47,13 +60,30 @@ const Comments = ({ videoId }) => {
       }
     };
     fetchComments();
-  }, [videoId]);
+  }, [videoId, trigger]);
+
+  const handelSendComment = async () => {
+    await axios.post(
+      "http://localhost:8800/api/comments/",
+      { videoId, desc: newComment },
+      { withCredentials: true }
+    );
+    setNewComment("");
+    setTrigger(!trigger);
+  };
 
   return (
     <Container>
       <NewComment>
-        <Avatar src={currentUser?.img} />
-        <Input placeholder="Add a comment..." />
+        <Avatar src={currentUser?.img || profilePic} />
+        <Input
+          placeholder="Add a comment..."
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <IconButton>
+          <SendComment onClick={handelSendComment} />
+        </IconButton>
       </NewComment>
       {comments.map((comment) => (
         <Comment

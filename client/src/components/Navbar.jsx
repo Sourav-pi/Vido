@@ -6,6 +6,7 @@ import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import { Link } from "@mui/material";
 import { useSelector } from "react-redux";
 import Upload from "./Upload";
+import profilPic from "../img/default-profile-pic.png";
 
 const Container = styled.div`
   position: sticky;
@@ -108,7 +109,7 @@ const Navbar = () => {
           {currentUser ? (
             <User>
               <VideoCallOutlinedIcon onClick={() => setOpen(true)} />
-              <Avatar />
+              <Avatar src={currentUser.img || profilPic} />
               {currentUser.name}
             </User>
           ) : (

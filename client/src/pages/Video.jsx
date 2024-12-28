@@ -14,6 +14,7 @@ import { format } from "timeago.js";
 import { subscription } from "../redux/UserSlice";
 import Comments from "../components/Comments";
 import Reccomendations from "../components/Reccomendations";
+import profilePic from "../img/default-profile-pic.png";
 
 const Container = styled.div`
   display: flex;
@@ -189,7 +190,10 @@ const Video = () => {
         <VideoWrapper>
           <VideoFrame
             controls
-            src={currentVideo?.videoUrl}
+            src={
+              currentVideo?.videoUrl ||
+              "https://res.cloudinary.com/dwswzmg9t/video/upload/v1735367430/kgjo4l8epp7cz97vqddq.mp4"
+            }
             type="video/mp4"
           ></VideoFrame>
         </VideoWrapper>
@@ -229,7 +233,7 @@ const Video = () => {
         <Hr />
         <Channel>
           <ChannelInfo>
-            <ChannelAvatar src={channel?.img} />
+            <ChannelAvatar src={channel?.img || profilePic} />
             <ChannelDetails>
               <ChannelName>{channel?.name}</ChannelName>
               <ChannelCounter>{channel?.subsribers} subscribers</ChannelCounter>

@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { format } from "timeago.js";
 import axios from "axios";
+import profilPic from "../img/default-profile-pic.png";
+import defaultThumbnail from "../img/no thumbnail.png";
 
 const Container = styled.div`
   width: ${({ type }) => type !== "sm" && "300px"};
@@ -63,9 +65,12 @@ const Card = ({ type, video }) => {
   return (
     <Link href={`/video/${video?._id}`} style={{ textDecoration: "none" }}>
       <Container type={type}>
-        <Image type={type} src={video?.imgUrl} />
+        <Image type={type} src={video?.imgUrl || defaultThumbnail} />
         <Details type={type}>
-          <ChannelAvatar type={type} src={channel?.profilePicture} />
+          <ChannelAvatar
+            type={type}
+            src={channel?.profilePicture || profilPic}
+          />
           <Texts>
             <Title> {video?.title}</Title>
             <ChannelName>{channel.img}</ChannelName>

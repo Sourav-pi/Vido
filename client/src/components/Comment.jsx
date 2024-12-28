@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { useState } from "react";
+import profilePic from "../img/default-profile-pic.png";
+
 const Container = styled.div`
   display: flex;
   gap: 10px;
@@ -49,7 +51,7 @@ const Comment = ({ userId, desc, time }) => {
   }, [user]);
   return (
     <Container>
-      <Avatar src={user?.img} />
+      <Avatar src={user?.img || profilePic} />
       <Details>
         <Name>
           {user?.name} <Date>{time}</Date>
