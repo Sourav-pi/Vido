@@ -16,6 +16,8 @@ import Comments from "../components/Comments";
 import Reccomendations from "../components/Reccomendations";
 import profilePic from "../img/default-profile-pic.png";
 
+const API = import.meta.env.VITE_API_URL;
+
 const Container = styled.div`
   display: flex;
   gap: 20px;
@@ -128,14 +130,11 @@ const Video = () => {
     const fetchData = async () => {
       try {
         dispatch(fetchStart());
-        const videoResponse = await axios.get(
-          ` http://localhost:8800/api/videos/find/${path}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const videoResponse = await axios.get(` ${API}/videos/find/${path}`, {
+          withCredentials: true,
+        });
         const channelResponse = await axios.get(
-          `http://localhost:8800/api/users/find/${videoResponse.data.userId}`,
+          `${API}/users/find/${videoResponse.data.userId}`,
           {
             withCredentials: true,
           }
@@ -152,7 +151,7 @@ const Video = () => {
 
   const handelLike = async () => {
     await axios.put(
-      `http://localhost:8800/api/users/like/${currentVideo._id}`,
+      `${API}/users/like/${currentVideo._id}`,
       {},
       {
         withCredentials: true,
@@ -162,7 +161,7 @@ const Video = () => {
   };
   const handelDislike = async () => {
     await axios.put(
-      `http://localhost:8800/api/users/dislike/${currentVideo._id}`,
+      `${API}/users/dislike/${currentVideo._id}`,
       {},
       {
         withCredentials: true,
@@ -173,7 +172,7 @@ const Video = () => {
 
   const handelSub = async () => {
     const resp = await axios.put(
-      `http://localhost:8800/api/users/${
+      `${API}/users/${
         currentUser?.subscribedUsers?.includes(channel?._id) ? "unsub" : "sub"
       }/${channel._id}`,
       {},

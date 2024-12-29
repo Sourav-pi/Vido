@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Card from "../components/Card";
+const API = import.meta.env.VITE_API_URL;
 
 const Container = styled.div`
   display: flex;
@@ -18,9 +19,7 @@ const Search = () => {
   const query = useLocation().pathname.split("/")[2];
   useEffect(() => {
     const fetchVideos = async () => {
-      const resp = await axios.get(
-        `http://localhost:8800/api/videos/search?q=${query}`
-      );
+      const resp = await axios.get(`${API}/videos/search?q=${query}`);
       setVideos(resp.data);
     };
     fetchVideos();

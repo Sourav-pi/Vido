@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { loginFailure, loginStart, loginSuccess } from "../redux/UserSlice";
 import { Navigate, useNavigate } from "react-router-dom";
 
+const API = import.meta.env.VITE_API_URL;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -78,7 +80,7 @@ const Login = () => {
     dispatch(loginStart());
     try {
       const user = await axios.post(
-        "http://localhost:8800/api/auth/signin",
+        `${API}/auth/signin`,
         {
           name,
           password,
@@ -98,7 +100,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const user = await axios.post(
-        "http://localhost:8800/api/auth/signup",
+        `${API}/auth/signup`,
         {
           name,
           email,

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Card from "../components/Card.jsx";
 import axios from "axios";
+const API = import.meta.env.VITE_API_URL;
 
 const Container = styled.div`
   display: flex;
@@ -17,12 +18,9 @@ const Home = ({ type }) => {
   const [videos, setVideos] = useState([]);
   useEffect(() => {
     const fetchVideos = async () => {
-      const response = await axios.get(
-        `http://localhost:8800/api/videos/${type}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${API}/videos/${type}`, {
+        withCredentials: true,
+      });
       setVideos(response.data);
     };
     fetchVideos();
