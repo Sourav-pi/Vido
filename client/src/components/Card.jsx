@@ -58,6 +58,7 @@ const Card = ({ type, video }) => {
     try {
       const resp = await axios.put(`${API}/videos/view/${video?._id}`);
       console.log(resp.data);
+      console.log("video clicked");
     } catch (err) {
       console.log(err);
     }
