@@ -56,9 +56,11 @@ const Card = ({ type, video }) => {
   const [channel, setChannel] = React.useState({});
   const handelCardClick = async () => {
     try {
-      const resp = await axios.put(`${API}/videos/view/${video?._id}`);
-      console.log(resp.data);
-      console.log("video clicked");
+      const resp = await axios.put(
+        `${API}/videos/view/${video?._id}`,
+        {},
+        { withCredentials: true }
+      );
     } catch (err) {
       console.log(err);
     }
