@@ -54,6 +54,14 @@ const Info = styled.div`
 
 const Card = ({ type, video }) => {
   const [channel, setChannel] = React.useState({});
+  const handelCardClick = async () => {
+    try {
+      await axios.put(`${API}/videos/view/${video?._id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const fetchChannel = async () => {
       const response = await axios.get(`${API}/users/find/${video?.userId}`);
@@ -62,7 +70,11 @@ const Card = ({ type, video }) => {
     fetchChannel();
   }, [video?.userId]);
   return (
-    <Link href={`/video/${video?._id}`} style={{ textDecoration: "none" }}>
+    <Link
+      href={`/video/${video?._id}`}
+      onClick={handelCardClick}
+      style={{ textDecoration: "none" }}
+    >
       <Container type={type}>
         <Image type={type} src={video?.imgUrl || defaultThumbnail} />
         <Details type={type}>
