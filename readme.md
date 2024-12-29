@@ -2,7 +2,7 @@
 
 Vido is a video sharing platform that allows users to upload, share, and view videos.
 
-# Deployed version :
+## Deployed version :
 
 Link : https://vido-enow.onrender.com/
 
