@@ -134,14 +134,14 @@ const Video = () => {
           withCredentials: true,
         });
         const channelResponse = await axios.get(
-          `${API}/users/find/${videoResponse.data.userId}`,
+          `${API}/users/find/${videoResponse?.data.userId}`,
           {
             withCredentials: true,
           }
         );
-        dispatch(fetchSuccess(videoResponse.data));
+        dispatch(fetchSuccess(videoResponse?.data));
 
-        setChannel(channelResponse.data);
+        setChannel(channelResponse?.data);
       } catch (error) {
         console.log(error);
       }
@@ -151,7 +151,7 @@ const Video = () => {
 
   const handelLike = async () => {
     await axios.put(
-      `${API}/users/like/${currentVideo._id}`,
+      `${API}/users/like/${currentVideo?._id}`,
       {},
       {
         withCredentials: true,
@@ -161,7 +161,7 @@ const Video = () => {
   };
   const handelDislike = async () => {
     await axios.put(
-      `${API}/users/dislike/${currentVideo._id}`,
+      `${API}/users/dislike/${currentVideo?._id}`,
       {},
       {
         withCredentials: true,
@@ -174,13 +174,13 @@ const Video = () => {
     const resp = await axios.put(
       `${API}/users/${
         currentUser?.subscribedUsers?.includes(channel?._id) ? "unsub" : "sub"
-      }/${channel._id}`,
+      }/${channel?._id}`,
       {},
       {
         withCredentials: true,
       }
     );
-    dispatch(subscription(channel._id));
+    dispatch(subscription(channel?._id));
   };
 
   return (
@@ -235,11 +235,13 @@ const Video = () => {
             <ChannelAvatar src={channel?.img || profilePic} />
             <ChannelDetails>
               <ChannelName>{channel?.name}</ChannelName>
-              <ChannelCounter>{channel?.subsribers} subscribers</ChannelCounter>
+              <ChannelCounter>
+                {channel?.subscribers} subscribers
+              </ChannelCounter>
               <Description>{currentVideo?.desc}</Description>
             </ChannelDetails>
           </ChannelInfo>
-          {currentUser?._id !== channel?._id && (
+          {currentUser && channel && currentUser?._id !== channel?._id && (
             <Subscribe onClick={handelSub}>
               {currentUser?.subscribedUsers?.includes(channel?._id)
                 ? "SUBSCRIBED"
@@ -248,9 +250,9 @@ const Video = () => {
           )}
         </Channel>
         <Hr />
-        <Comments videoId={currentVideo._id} />
+        <Comments videoId={currentVideo?._id} />
       </Content>
-      <Reccomendations tags={currentVideo.tags} />
+      <Reccomendations tags={currentVideo?.tags} />
     </Container>
   );
 };
