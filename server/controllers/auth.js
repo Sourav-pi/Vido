@@ -43,8 +43,8 @@ async function signin(req, res, next) {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        // sameSite: "None",
-        // secure: process.env.NODE_ENV === "production",
+        sameSite: "None",
+        secure: process.env.NODE_ENV === "production",
       })
       .status(200)
       .json(others);
